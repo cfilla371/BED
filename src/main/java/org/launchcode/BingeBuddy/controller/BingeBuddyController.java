@@ -69,7 +69,6 @@ public class BingeBuddyController {
         }
     }
 
-
     // /search-movie)
     @GetMapping("/search-movie")
     public ResponseEntity<List<Movie>> searchMovies(@RequestParam String query) {
