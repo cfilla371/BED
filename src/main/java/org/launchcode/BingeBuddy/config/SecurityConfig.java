@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 
 import java.util.List;
 
@@ -48,22 +49,22 @@ public class SecurityConfig {
     }
 
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for APIs
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/signup").permitAll()
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/loginjwt").permitAll()
-                        .requestMatchers("/register").permitAll()
-                        .requestMatchers("/movies/**").permitAll()
-                        .requestMatchers("/reviews/**").permitAll()
-                        .requestMatchers("/comments/**").permitAll()
-                        .requestMatchers("/user-watchlists/**").permitAll()
-                        .requestMatchers("/watchlist/**").permitAll()
+                        .requestMatchers(EndpointRequest.to("health")).permitAll()
+                        .requestMatchers( "/api/signup").permitAll()
+                        .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/api/loginjwt").permitAll()
+                        .requestMatchers("/api/register").permitAll()
+                        .requestMatchers("/api/movies/**").permitAll()
+                        .requestMatchers("/api/reviews/**").permitAll()
+                        .requestMatchers("/api/comments/**").permitAll()
+                        .requestMatchers("/api/user-watchlists/**").permitAll()
+                        .requestMatchers("/api/watchlist/**").permitAll()
                         .anyRequest().authenticated()
 
                 )
@@ -85,8 +86,9 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://35.238.249.150"));
+        // ADDED "OPTIONS" to allowed methods for preflight requests
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
         configuration.addAllowedHeader("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
