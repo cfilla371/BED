@@ -4,17 +4,17 @@ public class JwtRequest {
     private String username;
     private String password;
 
-    // Default Constructor (Required for JSON deserialization)
+
     public JwtRequest() {
     }
 
-    // Parameterized Constructor
+
     public JwtRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    // Getter and Setter for username
+
     public String getUsername() {
         return username;
     }
@@ -23,7 +23,7 @@ public class JwtRequest {
         this.username = username;
     }
 
-    // Getter and Setter for password
+
     public String getPassword() {
         return password;
     }

@@ -92,18 +92,16 @@ public class UserController {
     public ResponseEntity<String> addUserDetails(@RequestParam Integer userId,
                                                  @RequestParam(required = false) String genre,
                                                  @RequestParam(required = false) String anotherGenre) {
-        // Fetch the user by ID
+
         Optional<User> userOptional = userEntityRepository.findById(userId);
         if (userOptional.isEmpty()) {
             return ResponseEntity.badRequest().body("User not found.");
         }
 
-        // Update user details
         User user = userOptional.get();
         if (genre != null) user.setGenre(genre);
         if (anotherGenre != null) user.setAnotherGenre(anotherGenre);
 
-        // Save the updated user
         userEntityRepository.save(user);
 
         return ResponseEntity.ok("User details updated successfully.");
@@ -201,7 +199,7 @@ public ResponseEntity<List<User>> searchUsers(@PathVariable String searchTerm) {
     }
 
 
-    // ??
+
     @DeleteMapping("/delete")
     public ResponseEntity<User> deleteUserById(@PathVariable Integer userId) {
         Optional<User> user = userEntityRepository.findById(userId);
