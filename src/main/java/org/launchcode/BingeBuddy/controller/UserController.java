@@ -119,20 +119,21 @@ public class UserController {
 @GetMapping("/search/{searchTerm}") // Changed to searchTerm for clarity
 public ResponseEntity<List<User>> searchUsers(@PathVariable String searchTerm) {
 
-    List<User> searchUser = userEntityRepository.findAll();  // Get all users
-    List<User> users = new ArrayList<>(); // Initialize the list to store matching users
+    List<User> searchUser = userEntityRepository.findAll();
 
-    if (searchTerm == null || searchTerm.isEmpty()) { // Handle empty or null search term
-        return ResponseEntity.ok(searchUser); // Or return an empty list: return ResponseEntity.ok(Collections.emptyList());
+    if (searchTerm == null || searchTerm.isEmpty()) {
+        return ResponseEntity.ok(searchUser);
     }
 
-    for (User user : searchUser) { // Iterate through all users
-        if (user.getUsername().toLowerCase().contains(searchTerm.toLowerCase())) { // Case-insensitive comparison
-            users.add(user); // Add the user to the list if the username matches
-        }
-    }
+//    for (User user : searchUser) {
+//        if (user.getUsername().toLowerCase().contains(searchTerm.toLowerCase())) {
+//            users.add(user);
+//        }
+//    }
 
-    return ResponseEntity.ok(users); // Return the list of matching users
+    List<User> users = userEntityRepository.findByUsernameContaining(searchTerm);
+
+    return ResponseEntity.ok(users);
 }
 
 //    @GetMapping("/search{userName}")
