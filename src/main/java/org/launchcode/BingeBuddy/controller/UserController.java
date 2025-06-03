@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.List;
 
 @RestController
+@RequestMapping("api")
 public class UserController {
 
     @Autowired

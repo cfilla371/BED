@@ -1,15 +1,20 @@
-FROM eclipse-temurin:17-jre-alpine
-
-RUN apk update
-
-RUN apk add --no-cache openjdk17-jre
-
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
-ENV PATH="$JAVA_HOME/bin:${PATH}"
+FROM gradle:jdk17 AS builder
 
 WORKDIR /app
 
-COPY build/libs/BingeBuddy-0.0.1-SNAPSHOT.jar app.jar
+COPY gradlew .
+COPY gradle ./gradle
+COPY build.gradle settings.gradle ./
+
+COPY src ./src
+
+RUN ./gradlew build --no-daemon --build-cache -x test
+
+FROM eclipse-temurin:17-jre-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/build/libs/BingeBuddy-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 

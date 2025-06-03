@@ -1,4 +1,4 @@
-package org.launchcode.BingeBuddy.security;
+package org.launchcode.BingeBuddy.config;
 
 import  org.launchcode.BingeBuddy.service.CustomUserDetailsService;
 import  org.launchcode.BingeBuddy.filter.JwtFilter;
@@ -53,7 +53,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())  // Disable CSRF for APIs
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(EndpointRequest.to("health")).permitAll()
                         .requestMatchers( "/api/signup").permitAll()
@@ -87,7 +87,6 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://35.238.249.150"));
-        // ADDED "OPTIONS" to allowed methods for preflight requests
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowCredentials(true);
         configuration.addAllowedHeader("*");
